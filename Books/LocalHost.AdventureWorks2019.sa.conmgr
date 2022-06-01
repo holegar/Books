@@ -1,0 +1,14 @@
+﻿<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="LocalHost.AdventureWorks2019.sa"
+  DTS:DTSID="{B6D4B182-1B37-4E9C-B1E0-23E851CF2C95}"
+  DTS:CreationName="ADO">
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectionString="Data Source=.;User ID=sa;Initial Catalog=AdventureWorks2019;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAcj68beKDXUCe1v7b5Jm1qAAAAAACAAAAAAADZgAAwAAAABAAAAAsrTAGJo4MGA+X5MbwQGGLAAAAAASAAACgAAAAEAAAAHezNOvw9CC6Jw0QCj7TJ0pwAAAAP0bafCEFIE2/L8xQ2WKRO2pqYIgiVcYoSQmrf0C6tqHOlARKU/UVnOr7BVpji8MxYYlER2AaTTO++0xKKANWfk/m1L/Z94Xuwqi1mNy27ZWfmvzeMK2AEuJcUPktztrWzxB0wCFN2E0zt7Hy8AzY5RQAAABhYCWGZvESod0kMSts94J7BJepMg==</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

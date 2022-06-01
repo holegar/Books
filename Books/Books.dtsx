@@ -1,0 +1,940 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/31/2022 8:36:01 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="WSN-707"
+  DTS:CreatorName="SYSTEMGROUP\HesamHo"
+  DTS:DTSID="{80EE00BB-A9D4-4EE7-AB4C-F87CA216BB14}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1065"
+  DTS:ObjectName="Package"
+  DTS:PackageType="5"
+  DTS:VersionBuild="1"
+  DTS:VersionGUID="{E7AF4EB6-724B-43E1-BF0A-A68CD25BB1C2}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.AdventureWorks2019.sa 1]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{30BFE194-87D5-4C2C-82B6-EEA4B8F17445}"
+      DTS:ObjectName="LocalHost.AdventureWorks2019.sa 1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=.;User ID=sa;Initial Catalog=AdventureWorks2019;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAcj68beKDXUCe1v7b5Jm1qAAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAADpcGEujuKhZxeCmQrxNsoYAAAAAASAAACgAAAAEAAAAAKJYgEdxy5gVA69YWsGNYUIAAAAh7kGgvDLyZ8UAAAAQF/r8ojA7pJqzwayF9mdqbx1E1U</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Execute SQL Task"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{5079FCA8-8BDA-42F4-953E-B4D29E1D98C4}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execute SQL Task"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{30BFE194-87D5-4C2C-82B6-EEA4B8F17445}"
+          SQLTask:SqlStatementSource="UPDATE dbo.HesamLibrary&#xA;SET Title = CASE&#xA;&#x9;WHEN Title LIKE 'The %' THEN (SUBSTRING(Title, 5, 255) + ', The')&#xA;&#x9;WHEN Title LIKE An %' THEN (SUBSTRING(Title, 4, 255) + ', An')&#xA;&#x9;WHEN Title LIKE 'A %' THEN (SUBSTRING(Title, 3, 255) + ', A')&#xA;&#x9;ELSE Title&#xA;&#x9;END;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\XML Transfer"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{FDE4E223-2B15-41E5-A5A7-B6873ADF72DD}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="XML Transfer"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\XML Transfer\Sort"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+              name="Sort"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                  name="EliminateDuplicates">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the maximum number of threads to use for sorting."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\XML Transfer\Sort.Inputs[Sort Input]"
+                  name="Sort Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\XML Transfer\Sort.Inputs[Sort Input].Columns[id]"
+                      cachedDataType="i4"
+                      cachedName="id"
+                      lineageId="Package\XML Transfer\XML Source.Outputs[book].Columns[id]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\XML Transfer\Sort.Inputs[Sort Input].Columns[author]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="author"
+                      lineageId="Package\XML Transfer\XML Source.Outputs[book].Columns[author]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\XML Transfer\Sort.Inputs[Sort Input].Columns[title]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="title"
+                      lineageId="Package\XML Transfer\XML Source.Outputs[book].Columns[title]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\XML Transfer\Sort.Inputs[Sort Input].Columns[genre]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="genre"
+                      lineageId="Package\XML Transfer\XML Source.Outputs[book].Columns[genre]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\XML Transfer\Sort.Inputs[Sort Input].Columns[price]"
+                      cachedDataType="decimal"
+                      cachedName="price"
+                      cachedScale="10"
+                      lineageId="Package\XML Transfer\XML Source.Outputs[book].Columns[price]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\XML Transfer\Sort.Inputs[Sort Input].Columns[publish_date]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="publish_date"
+                      lineageId="Package\XML Transfer\XML Source.Outputs[book].Columns[publish_date]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\XML Transfer\Sort.Inputs[Sort Input].Columns[description]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="description"
+                      lineageId="Package\XML Transfer\XML Source.Outputs[book].Columns[description]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\XML Transfer\Sort.Outputs[Sort Output]"
+                  isSorted="true"
+                  name="Sort Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\XML Transfer\Sort.Outputs[Sort Output].Columns[id]"
+                      dataType="i4"
+                      lineageId="Package\XML Transfer\Sort.Outputs[Sort Output].Columns[id]"
+                      name="id">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\XML Transfer\XML Source.Outputs[book].Columns[id]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\XML Transfer\Sort.Outputs[Sort Output].Columns[author]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\XML Transfer\Sort.Outputs[Sort Output].Columns[author]"
+                      name="author">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\XML Transfer\XML Source.Outputs[book].Columns[author]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\XML Transfer\Sort.Outputs[Sort Output].Columns[title]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\XML Transfer\Sort.Outputs[Sort Output].Columns[title]"
+                      name="title"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\XML Transfer\XML Source.Outputs[book].Columns[title]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\XML Transfer\Sort.Outputs[Sort Output].Columns[genre]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\XML Transfer\Sort.Outputs[Sort Output].Columns[genre]"
+                      name="genre">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\XML Transfer\XML Source.Outputs[book].Columns[genre]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\XML Transfer\Sort.Outputs[Sort Output].Columns[price]"
+                      dataType="decimal"
+                      lineageId="Package\XML Transfer\Sort.Outputs[Sort Output].Columns[price]"
+                      name="price"
+                      scale="10">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\XML Transfer\XML Source.Outputs[book].Columns[price]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\XML Transfer\Sort.Outputs[Sort Output].Columns[publish_date]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\XML Transfer\Sort.Outputs[Sort Output].Columns[publish_date]"
+                      name="publish_date">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\XML Transfer\XML Source.Outputs[book].Columns[publish_date]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\XML Transfer\Sort.Outputs[Sort Output].Columns[description]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\XML Transfer\Sort.Outputs[Sort Output].Columns[description]"
+                      name="description">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\XML Transfer\XML Source.Outputs[book].Columns[description]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\XML Transfer\SQL Server Destination"
+              componentClassID="Microsoft.SQLServerDestination"
+              contactInfo="SQL Server Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;5"
+              description="SQL Server Destination"
+              name="SQL Server Destination"
+              version="5">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1256</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.String"
+                  description="The name of the database object to copy data into."
+                  expressionType="Notify"
+                  name="BulkInsertTableName">[HesamLibrary]</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies that any constraints on the destination object are checked during the data copy operation. Corresponds to the bulk insert CHECK_CONSTRAINTS option."
+                  name="BulkInsertCheckConstraints">true</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the number of the first row to copy. Corresponds to the bulk insert FIRSTROW option."
+                  expressionType="Notify"
+                  name="BulkInsertFirstRow">-1</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies that any insert triggers defined on the destination object will execute during the data copy. Corresponds to the bulk insert FIRE_TRIGGERS option."
+                  name="BulkInsertFireTriggers">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Corresponds to the bulk insert KEEPIDENTITY option."
+                  name="BulkInsertKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null copied to the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="BulkInsertKeepNulls">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the number of the last row to copy. Corresponds to the bulk insert LASTROW option."
+                  expressionType="Notify"
+                  name="BulkInsertLastRow">-1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the maximum number of syntax errors and compilation errors that can occur before the data copy operation is canceled. Each row that cannot be copied is ignored and counted as one error. Corresponds to the bulk insert MAXERRORS option."
+                  name="BulkInsertMaxErrors">-1</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies how the data to be copied is sorted. Corresponds to the bulk insert ORDER option."
+                  expressionType="Notify"
+                  name="BulkInsertOrder"></property>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies that a table-level lock is acquired for the duration of the data copy operation. Corresponds to the bulk insert TABLOCK option."
+                  name="BulkInsertTablock">true</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies in seconds the amount of time the SQL Destination adapter will wait before terminating if there is no data available for insertion.  A timeout value of 0 means the SQL Destination adapter will not time out."
+                  expressionType="Notify"
+                  name="Timeout">30</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion."
+                  name="MaxInsertCommitSize">0</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\XML Transfer\SQL Server Destination.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LocalHost.AdventureWorks2019.sa 1]"
+                  connectionManagerRefId="Package.ConnectionManagers[LocalHost.AdventureWorks2019.sa 1]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\XML Transfer\SQL Server Destination.Inputs[SQL Server Destination Input]"
+                  hasSideEffects="true"
+                  name="SQL Server Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\XML Transfer\SQL Server Destination.Inputs[SQL Server Destination Input].Columns[id]"
+                      cachedDataType="i4"
+                      cachedName="id"
+                      externalMetadataColumnId="Package\XML Transfer\SQL Server Destination.Inputs[SQL Server Destination Input].ExternalColumns[id]"
+                      lineageId="Package\XML Transfer\Sort.Outputs[Sort Output].Columns[id]" />
+                    <inputColumn
+                      refId="Package\XML Transfer\SQL Server Destination.Inputs[SQL Server Destination Input].Columns[author]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="author"
+                      externalMetadataColumnId="Package\XML Transfer\SQL Server Destination.Inputs[SQL Server Destination Input].ExternalColumns[author]"
+                      lineageId="Package\XML Transfer\Sort.Outputs[Sort Output].Columns[author]" />
+                    <inputColumn
+                      refId="Package\XML Transfer\SQL Server Destination.Inputs[SQL Server Destination Input].Columns[title]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="title"
+                      cachedSortKeyPosition="1"
+                      externalMetadataColumnId="Package\XML Transfer\SQL Server Destination.Inputs[SQL Server Destination Input].ExternalColumns[title]"
+                      lineageId="Package\XML Transfer\Sort.Outputs[Sort Output].Columns[title]" />
+                    <inputColumn
+                      refId="Package\XML Transfer\SQL Server Destination.Inputs[SQL Server Destination Input].Columns[genre]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="genre"
+                      externalMetadataColumnId="Package\XML Transfer\SQL Server Destination.Inputs[SQL Server Destination Input].ExternalColumns[genre]"
+                      lineageId="Package\XML Transfer\Sort.Outputs[Sort Output].Columns[genre]" />
+                    <inputColumn
+                      refId="Package\XML Transfer\SQL Server Destination.Inputs[SQL Server Destination Input].Columns[price]"
+                      cachedDataType="decimal"
+                      cachedName="price"
+                      cachedScale="10"
+                      externalMetadataColumnId="Package\XML Transfer\SQL Server Destination.Inputs[SQL Server Destination Input].ExternalColumns[price]"
+                      lineageId="Package\XML Transfer\Sort.Outputs[Sort Output].Columns[price]" />
+                    <inputColumn
+                      refId="Package\XML Transfer\SQL Server Destination.Inputs[SQL Server Destination Input].Columns[publish_date]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="publish_date"
+                      externalMetadataColumnId="Package\XML Transfer\SQL Server Destination.Inputs[SQL Server Destination Input].ExternalColumns[publish_date]"
+                      lineageId="Package\XML Transfer\Sort.Outputs[Sort Output].Columns[publish_date]" />
+                    <inputColumn
+                      refId="Package\XML Transfer\SQL Server Destination.Inputs[SQL Server Destination Input].Columns[description]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="description"
+                      externalMetadataColumnId="Package\XML Transfer\SQL Server Destination.Inputs[SQL Server Destination Input].ExternalColumns[description]"
+                      lineageId="Package\XML Transfer\Sort.Outputs[Sort Output].Columns[description]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\XML Transfer\SQL Server Destination.Inputs[SQL Server Destination Input].ExternalColumns[id]"
+                      dataType="i4"
+                      name="id" />
+                    <externalMetadataColumn
+                      refId="Package\XML Transfer\SQL Server Destination.Inputs[SQL Server Destination Input].ExternalColumns[author]"
+                      dataType="wstr"
+                      length="255"
+                      name="author" />
+                    <externalMetadataColumn
+                      refId="Package\XML Transfer\SQL Server Destination.Inputs[SQL Server Destination Input].ExternalColumns[title]"
+                      dataType="wstr"
+                      length="255"
+                      name="title" />
+                    <externalMetadataColumn
+                      refId="Package\XML Transfer\SQL Server Destination.Inputs[SQL Server Destination Input].ExternalColumns[genre]"
+                      dataType="wstr"
+                      length="255"
+                      name="genre" />
+                    <externalMetadataColumn
+                      refId="Package\XML Transfer\SQL Server Destination.Inputs[SQL Server Destination Input].ExternalColumns[price]"
+                      dataType="numeric"
+                      name="price"
+                      precision="28"
+                      scale="10" />
+                    <externalMetadataColumn
+                      refId="Package\XML Transfer\SQL Server Destination.Inputs[SQL Server Destination Input].ExternalColumns[publish_date]"
+                      dataType="dbTimeStamp"
+                      name="publish_date" />
+                    <externalMetadataColumn
+                      refId="Package\XML Transfer\SQL Server Destination.Inputs[SQL Server Destination Input].ExternalColumns[description]"
+                      dataType="wstr"
+                      length="255"
+                      name="description" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+            </component>
+            <component
+              refId="Package\XML Transfer\XML Source"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="Extracts data from an XML file. For example, extract catalog data from an XML file that represents catalogs and catalog items. Before using, specify the schema and generate an output for each XML element.;Microsoft Corporation;Microsoft SQL Server; Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Extracts data from an XML file. For example, extract catalog data from an XML file that represents catalogs and catalog items. Before using, specify the schema and generate an output for each XML element."
+              name="XML Source"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.XmlSourceAdapter</property>
+                <property
+                  dataType="System.String"
+                  description="The XML data used by the XML source adapter."
+                  expressionType="Notify"
+                  name="XMLData">D:\Desktop\Books.xml</property>
+                <property
+                  dataType="System.String"
+                  description="The variable used by the XML source adapter to specify XML data."
+                  name="XMLDataVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Defines how the XML source adapter gets XML data."
+                  name="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The XML schema definition used by the XML source adapter."
+                  expressionType="Notify"
+                  name="XMLSchemaDefinition">D:\Desktop\Books.xsd</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Identifies whether or not to use inline schema."
+                  name="UseInlineSchema">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Defines how XML integer types are mapped."
+                  name="XMLIntegerMapping"
+                  typeConverter="Microsoft.SqlServer.Dts.Pipeline.XmlSourceAdapter+XMLIntegerMappingConverter">0</property>
+              </properties>
+              <outputs>
+                <output
+                  refId="Package\XML Transfer\XML Source.Outputs[book]"
+                  name="book">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="Identifies the rowset associated with the output."
+                      name="RowsetID">book</property>
+                  </properties>
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book].Columns[id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\XML Transfer\XML Source.Outputs[book].ExternalColumns[id]"
+                      lineageId="Package\XML Transfer\XML Source.Outputs[book].Columns[id]"
+                      name="id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book].Columns[author]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\XML Transfer\XML Source.Outputs[book].ExternalColumns[author]"
+                      length="255"
+                      lineageId="Package\XML Transfer\XML Source.Outputs[book].Columns[author]"
+                      name="author"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book].Columns[title]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\XML Transfer\XML Source.Outputs[book].ExternalColumns[title]"
+                      length="255"
+                      lineageId="Package\XML Transfer\XML Source.Outputs[book].Columns[title]"
+                      name="title"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book].Columns[genre]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\XML Transfer\XML Source.Outputs[book].ExternalColumns[genre]"
+                      length="255"
+                      lineageId="Package\XML Transfer\XML Source.Outputs[book].Columns[genre]"
+                      name="genre"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book].Columns[price]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\XML Transfer\XML Source.Outputs[book].ExternalColumns[price]"
+                      lineageId="Package\XML Transfer\XML Source.Outputs[book].Columns[price]"
+                      name="price"
+                      scale="10"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book].Columns[publish_date]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\XML Transfer\XML Source.Outputs[book].ExternalColumns[publish_date]"
+                      lineageId="Package\XML Transfer\XML Source.Outputs[book].Columns[publish_date]"
+                      name="publish_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book].Columns[description]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\XML Transfer\XML Source.Outputs[book].ExternalColumns[description]"
+                      length="255"
+                      lineageId="Package\XML Transfer\XML Source.Outputs[book].Columns[description]"
+                      name="description"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book].ExternalColumns[id]"
+                      dataType="wstr"
+                      length="255"
+                      name="id">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          name="CLRType">System.String</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book].ExternalColumns[author]"
+                      dataType="wstr"
+                      length="255"
+                      name="author">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          name="CLRType">System.String</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book].ExternalColumns[title]"
+                      dataType="wstr"
+                      length="255"
+                      name="title">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          name="CLRType">System.String</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book].ExternalColumns[genre]"
+                      dataType="wstr"
+                      length="255"
+                      name="genre">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          name="CLRType">System.String</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book].ExternalColumns[price]"
+                      dataType="decimal"
+                      name="price"
+                      scale="10">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          name="CLRType">System.Decimal</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book].ExternalColumns[publish_date]"
+                      dataType="dbTimeStamp"
+                      name="publish_date">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          name="CLRType">System.DateTime</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book].ExternalColumns[description]"
+                      dataType="wstr"
+                      length="255"
+                      name="description">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          name="CLRType">System.String</property>
+                      </properties>
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\XML Transfer\XML Source.Outputs[book Error Output]"
+                  isErrorOut="true"
+                  name="book Error Output">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="Identifies the rowset associated with the output."
+                      name="RowsetID">book</property>
+                  </properties>
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book Error Output].Columns[id]"
+                      dataType="nText"
+                      externalMetadataColumnId="Package\XML Transfer\XML Source.Outputs[book Error Output].ExternalColumns[id]"
+                      lineageId="Package\XML Transfer\XML Source.Outputs[book Error Output].Columns[id]"
+                      name="id" />
+                    <outputColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book Error Output].Columns[author]"
+                      dataType="nText"
+                      externalMetadataColumnId="Package\XML Transfer\XML Source.Outputs[book Error Output].ExternalColumns[author]"
+                      lineageId="Package\XML Transfer\XML Source.Outputs[book Error Output].Columns[author]"
+                      name="author" />
+                    <outputColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book Error Output].Columns[title]"
+                      dataType="nText"
+                      externalMetadataColumnId="Package\XML Transfer\XML Source.Outputs[book Error Output].ExternalColumns[title]"
+                      lineageId="Package\XML Transfer\XML Source.Outputs[book Error Output].Columns[title]"
+                      name="title" />
+                    <outputColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book Error Output].Columns[genre]"
+                      dataType="nText"
+                      externalMetadataColumnId="Package\XML Transfer\XML Source.Outputs[book Error Output].ExternalColumns[genre]"
+                      lineageId="Package\XML Transfer\XML Source.Outputs[book Error Output].Columns[genre]"
+                      name="genre" />
+                    <outputColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book Error Output].Columns[price]"
+                      dataType="nText"
+                      externalMetadataColumnId="Package\XML Transfer\XML Source.Outputs[book Error Output].ExternalColumns[price]"
+                      lineageId="Package\XML Transfer\XML Source.Outputs[book Error Output].Columns[price]"
+                      name="price" />
+                    <outputColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book Error Output].Columns[publish_date]"
+                      dataType="nText"
+                      externalMetadataColumnId="Package\XML Transfer\XML Source.Outputs[book Error Output].ExternalColumns[publish_date]"
+                      lineageId="Package\XML Transfer\XML Source.Outputs[book Error Output].Columns[publish_date]"
+                      name="publish_date" />
+                    <outputColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book Error Output].Columns[description]"
+                      dataType="nText"
+                      externalMetadataColumnId="Package\XML Transfer\XML Source.Outputs[book Error Output].ExternalColumns[description]"
+                      lineageId="Package\XML Transfer\XML Source.Outputs[book Error Output].Columns[description]"
+                      name="description" />
+                    <outputColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\XML Transfer\XML Source.Outputs[book Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\XML Transfer\XML Source.Outputs[book Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book Error Output].ExternalColumns[id]"
+                      dataType="nText"
+                      name="id" />
+                    <externalMetadataColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book Error Output].ExternalColumns[author]"
+                      dataType="nText"
+                      name="author" />
+                    <externalMetadataColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book Error Output].ExternalColumns[title]"
+                      dataType="nText"
+                      name="title" />
+                    <externalMetadataColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book Error Output].ExternalColumns[genre]"
+                      dataType="nText"
+                      name="genre" />
+                    <externalMetadataColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book Error Output].ExternalColumns[price]"
+                      dataType="nText"
+                      name="price" />
+                    <externalMetadataColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book Error Output].ExternalColumns[publish_date]"
+                      dataType="nText"
+                      name="publish_date" />
+                    <externalMetadataColumn
+                      refId="Package\XML Transfer\XML Source.Outputs[book Error Output].ExternalColumns[description]"
+                      dataType="nText"
+                      name="description" />
+                  </externalMetadataColumns>
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\XML Transfer.Paths[book]"
+              endId="Package\XML Transfer\Sort.Inputs[Sort Input]"
+              name="book"
+              startId="Package\XML Transfer\XML Source.Outputs[book]" />
+            <path
+              refId="Package\XML Transfer.Paths[Sort Output]"
+              endId="Package\XML Transfer\SQL Server Destination.Inputs[SQL Server Destination Input]"
+              name="Sort Output"
+              startId="Package\XML Transfer\Sort.Outputs[Sort Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{E3AE20B6-E8EB-452A-957E-70EEC84EBC04}"
+      DTS:From="Package\XML Transfer"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Execute SQL Task" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="145,42"
+          Id="Package\XML Transfer"
+          TopLeft="123,87" />
+        <NodeLayout
+          Size="170,42"
+          Id="Package\Execute SQL Task"
+          TopLeft="111,171" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="195.75,129">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,42"
+              Start="0,0"
+              End="0,34.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\XML Transfer">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="139,42"
+          Id="Package\XML Transfer\XML Source"
+          TopLeft="122,74" />
+        <NodeLayout
+          Size="140,42"
+          Id="Package\XML Transfer\Sort"
+          TopLeft="122,169" />
+        <EdgeLayout
+          Id="Package\XML Transfer.Paths[book]"
+          TopLeft="191.75,116">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,53"
+              Start="0,0"
+              End="0,45.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,45.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="194,42"
+          Id="Package\XML Transfer\SQL Server Destination"
+          TopLeft="95.5,264.5" />
+        <EdgeLayout
+          Id="Package\XML Transfer.Paths[Sort Output]"
+          TopLeft="192.25,211">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,53.5"
+              Start="0,0"
+              End="0,46">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,46" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\XML Transfer\SQL Server Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
